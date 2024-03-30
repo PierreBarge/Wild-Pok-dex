@@ -3,25 +3,20 @@ import PokemonCard from "./components/PokemonCard";
 import NavBar from "./components/NavBar";
 
 function App() {
-  const [pokemonIndex, setPokemonIndex] = useState(0);
+  const [pokemonIndex, setPokemonIndex] = useState(pokemonList[0]);
 
-  const handleClickNext = () => {
-    setPokemonIndex(pokemonIndex + 1);
-  };
-
-  const handleClickPrevious = () => {
-    setPokemonIndex(pokemonIndex - 1);
+  const handleClick = (event) => {
+    for (let pokemon of pokemonList) {
+      if (event.target.textContent === pokemon.name) {
+        setPokemonIndex(pokemon);
+      }
+    }
   };
 
   return (
     <div>
-      <NavBar
-        pokemonIndex={pokemonIndex}
-        handleClickNext={handleClickNext}
-        handleClickPrevious={handleClickPrevious}
-        pokemonList={pokemonList}
-      />
-      <PokemonCard pokemon={pokemonList[pokemonIndex]} />
+      <NavBar handleClick={handleClick} pokemonList={pokemonList} />
+      <PokemonCard pokemon={pokemonIndex} />
     </div>
   );
 }
