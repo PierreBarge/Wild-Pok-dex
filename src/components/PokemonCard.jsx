@@ -1,6 +1,10 @@
 import PropTypes from "prop-types";
 
 function PokemonCard({ pokemon }) {
+  if (pokemon.name === "pikachu") {
+    alert("Pika pikachu!!!");
+  }
+
   return (
     <figure>
       {pokemon.imgSrc ? (
