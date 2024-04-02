@@ -1,55 +1,112 @@
 import { useState } from "react";
-import { useEffect } from "react";
 import PokemonCard from "./components/PokemonCard";
 import NavBar from "./components/NavBar";
+import SearchField from "./components/SearchField";
+import pokemonList from "./assets/pokemonDataBase";
 
 function App() {
-  useEffect(() => {
-    alert("Hello, pokémon trainer!!");
-  }, []);
+  let [pokemonIndex, setPokemonIndex] = useState(1);
+  let [currentPokemon, setCurrentPokemon] = useState(pokemonList[0]);
 
-  const [pokemonIndex, setPokemonIndex] = useState(pokemonList[0]);
+  const handleClickNext = () => {
+    let fails = true;
+    while (fails) {
+      setPokemonIndex(++pokemonIndex);
+      for (let pokemon of pokemonList) {
+        if (pokemon.id === pokemonIndex) {
+          setCurrentPokemon(pokemon);
+          fails = false;
+        }
+      }
+    }
+  };
 
-  const handleClick = (event) => {
-    for (let pokemon of pokemonList) {
-      if (event.target.textContent === pokemon.name) {
-        setPokemonIndex(pokemon);
+  const handleClickPrevious = () => {
+    let fails = true;
+    while (fails) {
+      setPokemonIndex(--pokemonIndex);
+      for (let pokemon of pokemonList) {
+        if (pokemon.id === pokemonIndex) {
+          setCurrentPokemon(pokemon);
+          fails = false;
+        }
+      }
+    }
+  };
+
+  const search = (event) => {
+    if (isNaN(event.target.value)) {
+      for (let pokemon of pokemonList) {
+        if (
+          event.target.value
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase() ===
+            pokemon.name
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .toLowerCase() ||
+          event.target.value
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase() ===
+            pokemon.frenchName
+              .normalize("NFD")
+              .replace(/[\u0300-\u036f]/g, "")
+              .toLowerCase()
+        ) {
+          setCurrentPokemon(pokemon);
+          setPokemonIndex(pokemon.id);
+          break;
+        } else if (
+          pokemon.name
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .startsWith(
+              event.target.value
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
+            ) ||
+          pokemon.frenchName
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .startsWith(
+              event.target.value
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase()
+            )
+        ) {
+          setCurrentPokemon(pokemon);
+          setPokemonIndex(pokemon.id);
+        }
+      }
+    } else {
+      for (let pokemon of pokemonList) {
+        if (pokemon.id === parseInt(event.target.value)) {
+          setCurrentPokemon(pokemon);
+          setPokemonIndex(pokemon.id);
+        }
       }
     }
   };
 
   return (
-    <div>
-      <NavBar handleClick={handleClick} pokemonList={pokemonList} />
-      <PokemonCard pokemon={pokemonIndex} />
+    <div id="app-grid">
+      <h1 id="main-title">Pokédex</h1>
+      <SearchField search={search} />
+      <NavBar
+        pokemonIndex={pokemonIndex}
+        handleClickNext={handleClickNext}
+        handleClickPrevious={handleClickPrevious}
+        pokemonList={pokemonList}
+      />
+      <PokemonCard pokemon={currentPokemon} />
     </div>
   );
 }
-
-const pokemonList = [
-  {
-    name: "bulbasaur",
-    imgSrc:
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png",
-  },
-  {
-    name: "charmander",
-    imgSrc:
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",
-  },
-  {
-    name: "squirtle",
-    imgSrc:
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",
-  },
-  {
-    name: "pikachu",
-    imgSrc:
-      "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",
-  },
-  {
-    name: "mew",
-  },
-];
 
 export default App;

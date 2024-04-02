@@ -13,6 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  margin: 0 auto;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -23,24 +27,93 @@ a:hover {
 }
 
 body {
-  margin: 0;
+  width: 100vw;
+  max-width: 412px;
+  height: 100vh;
+  max-height: 915px;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+#app-grid {
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(17, 1fr);
+  place-items: center;
+}
+
+#main-title {
+  grid-area: 2 / 2 / 3 / 10;
+  font-size: 3.5rem;
+  line-height: 2.5rem;
+  place-items: center;
+}
+
+#search-field {
+  grid-area: 4 / 3 / 5 / 9;
+  width: 100%;
+  height: 100%;
+  border-radius: 2rem;
+  text-align: center;
+  place-items: center;
+}
+
+#nav-bar {
+  grid-area: 6 / 2 / 7 / 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#pokemon-card {
+  grid-area: 8 / 2 / 17 / 10;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  place-items: center;
+}
+
+#pokemon-image {
+  grid-area: 1 / 2 / 7 / 8;
+  width: 100%;
+  place-items: center;
+}
+
+#pokemon-id {
+  grid-area: 8 / 2 / 10 / 4;
+  font-size: 3rem;
+  font-weight: 600;
+  place-items: center;
+}
+
+#pokemon-name {
+  grid-area: 8 / 4 / 9 / 9;
+  font-size: 1.2rem;
+  font-weight: 600;
+  place-items: center;
+}
+
+#pokemon-french-name {
+  grid-area: 9 / 4 / 10 / 9;
+  font-size: 1.2rem;
+  font-weight: 600;
+  place-items: center;
 }
 
 button {
-  border-radius: 8px;
+  border-radius: 2rem;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
+  width: 100px;
   font-size: 1em;
-  font-weight: 500;
+  font-weight: 600;
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
